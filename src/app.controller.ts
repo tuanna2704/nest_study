@@ -7,12 +7,14 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    const { abc } = process.env;
+    return `${this.appService.getHello()} - ${abc}`;
   }
 
   // Go to this page by URL: /test/subTest/foo/subFoo
   @Get('foo/subFoo')
   getFoo(): string {
-    return 'This is Foo'
+    const { DATABASE_USER, DATABASE_PASSWORD, abc } = process.env
+    return `UserName: ${DATABASE_USER}, Password: ${DATABASE_PASSWORD}`
   }
 }
