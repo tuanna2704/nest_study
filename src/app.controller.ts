@@ -1,20 +1,24 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-
+import { ConfigService } from '@nestjs/config';
 @Controller('test/subtest')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private configService: ConfigService
+  ) {}
 
   @Get()
   getHello(): string {
-    const { abc } = process.env;
+    console.log(this.configService.get<string>('DATABASE_USER'))
+    const abc = this.configService.get<string>('nest.abc');
     return `${this.appService.getHello()} - ${abc}`;
   }
 
   // Go to this page by URL: /test/subTest/foo/subFoo
   @Get('foo/subFoo')
   getFoo(): string {
-    const { DATABASE_USER, DATABASE_PASSWORD, abc } = process.env
+    const { DATABASE_USER, DATABASE_PASSWORD } = process.env
     return `UserName: ${DATABASE_USER}, Password: ${DATABASE_PASSWORD}`
   }
 }
