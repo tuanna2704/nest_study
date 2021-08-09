@@ -58,6 +58,15 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Dockerize
+```bash
+# Docker build
+$ docker build -t <docker_name> . --no-cache
+
+# Docker run
+$ docker run -p <host_port>:3000 -d -v <config_path>:/app/config <docker_name>:latest
+
+```
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
