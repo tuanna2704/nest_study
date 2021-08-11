@@ -1,8 +1,8 @@
-export default () => ({
-  test: process.env.test || 'value in configuration.ts',
-  DATABASE_USER: process.env.DATABASE_USER || 'DATABASE_USER default value',
-  DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || 'DATABASE_PASSWORD default value',
-  nest: {
-    abc: 'default stuff in nest'
+export default () => {
+  const { REDIS_HOST, REDIS_PORT, REDIS_TTL } = process.env
+  return {
+    test: process.env.test || 'value in configuration.ts',
+    REDIS_PORT: parseInt(REDIS_PORT) || 6379,
+    REDIS_TTL: parseInt(REDIS_TTL) || 60,
   }
-});
+};

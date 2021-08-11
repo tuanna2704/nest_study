@@ -28,8 +28,7 @@ export class AppController {
   // Go to this page by URL: /test/subTest/foo/subFoo
   @Get('set_caching')
   async testCaching(): Promise<string> {
-    const value = await this.cacheManager.set('tuanna', 'stuff value');
-    console.log(value)
+    await this.cacheManager.set('tuanna', 'stuff value');
     return 'Set cache page'
   }
 
