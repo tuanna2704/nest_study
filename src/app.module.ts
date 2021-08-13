@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as redisStore from 'cache-manager-redis-store';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
+import { UserModule } from './modules/user/user.module';
 import baseConfig from 'src/config/configuration'
 
 const config = ConfigModule.forRoot({
@@ -43,6 +44,7 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
     config,
     cacheConfig,
     ormModuleConfig,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
