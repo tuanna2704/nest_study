@@ -1,4 +1,4 @@
-import { DepartmentCategory } from "src/enums/department-category.enum"; 'src/enums/department-category.enum'
+import { DepartmentCategory } from "./../enums/department-category.enum";
 import { IsBoolean, IsEmail, IsString } from 'class-validator'
 
 export class CreateUserDTO {

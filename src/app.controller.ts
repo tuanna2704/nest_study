@@ -37,4 +37,9 @@ export class AppController {
     const value = await this.cacheManager.get('tuanna');
     return 'Show cache page: ' + value
   }
+
+  @Get('health_check')
+  health(): string {
+    return 'OK';
+  }
 }
