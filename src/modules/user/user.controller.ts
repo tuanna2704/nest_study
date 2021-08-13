@@ -1,4 +1,5 @@
-import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { CreateUserDTO } from './dtos/create-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -13,14 +14,17 @@ export class UserController {
     return 'new page'
   }
 
-  @Post('new')
-  create(){
-    return 'create page'
+  @Post()
+  create(
+    @Body() dto: CreateUserDTO
+  ){
+    console.log(dto)
+    return dto;
   }
 
 
   @Get(':id')
-  show( @Param('id')id: string ) {
+  show( @Param('id', ParseIntPipe) id: number ) {
     return {
       message: 'getOne',
       id
@@ -28,7 +32,7 @@ export class UserController {
   }
 
   @Get(':id/edit')
-  edit( @Param('id')id: string ) {
+  edit( @Param('id', ParseIntPipe) id: number ) {
     return {
       message: 'edit page',
       id
@@ -36,7 +40,7 @@ export class UserController {
   }
 
   @Put(':id')
-  update( @Param('id')id: string ) {
+  update( @Param('id', ParseIntPipe) id: number ) {
     return {
       message: 'update page',
       id
@@ -44,7 +48,7 @@ export class UserController {
   }
 
   @Delete(':id')
-  delete( @Param('id')id: string ) {
+  delete( @Param('id', ParseIntPipe) id: number ) {
     return {
       message: 'delete page',
       id
