@@ -6,6 +6,7 @@ import * as redisStore from 'cache-manager-redis-store';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 import baseConfig from 'src/config/configuration'
+import { join } from 'path';
 
 const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',
@@ -33,7 +34,7 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
       username: configService.get('DB_USERNAME'),
       password: configService.get('DB_PASSWORD'),
       database: configService.get('DB_DATABASE'),
-      entities: [__dirname + './../**/**.entity{.ts,.js}'],
+      entities: [join(__dirname, 'entities', '*.entity.{ts,js}')],
       synchronize: configService.get('DB_SYNC') === 'true',
     } as TypeOrmModuleAsyncOptions;
   },

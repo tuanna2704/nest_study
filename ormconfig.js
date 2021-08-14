@@ -7,7 +7,7 @@ const {
   DB_DATABASE,
 } = process.env;
 
-export default {
+module.exports = {
   type: DB_TYPE,
   host: DB_HOST,
   port: DB_PORT,

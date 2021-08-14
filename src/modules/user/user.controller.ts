@@ -1,11 +1,30 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDTO } from './dtos/create-user.dto';
-
+import { UserEntity } from 'src/entities/user.entity'
 @Controller('user')
 export class UserController {
   
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>
+  ) {}
+
   @Get()
-  index() {
+  async index(): Promise<string> {
+    const user = await this.userRepository.create({
+      email: 'abc',
+      department: 'abc',
+      firstName: 'abc',
+      lastName: 'abc',
+      password: 'abc',
+      isActive: true,
+    });
+    await this.userRepository.save(user)
+
+    // const user = await this.userRepository.find()
+    console.log(user);
     return 'index page';
   }
 
