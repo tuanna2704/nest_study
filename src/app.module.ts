@@ -7,6 +7,7 @@ import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 import baseConfig from 'src/config/configuration'
 import { join } from 'path';
+import { ProductModule } from './modules/product/product.module';
 
 const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',
@@ -46,6 +47,7 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
     cacheConfig,
     ormModuleConfig,
     UserModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
