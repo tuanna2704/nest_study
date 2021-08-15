@@ -35,7 +35,7 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
       username: configService.get('DB_USERNAME'),
       password: configService.get('DB_PASSWORD'),
       database: configService.get('DB_DATABASE'),
-      entities: [join(__dirname, 'entities', '*.entity.{ts,js}')],
+      entities: [join(__dirname, '**/entities', '*.entity.{ts,js}')],
       synchronize: configService.get('DB_SYNC') === 'true',
     } as TypeOrmModuleAsyncOptions;
   },

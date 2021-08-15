@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+// import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -8,11 +8,11 @@ async function bootstrap() {
     // logger: console,
   });
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-    })
-  )
+  // app.useGlobalPipes(
+  //   new ValidationPipe({
+  //     whitelist: true,
+  //   })
+  // )
 
   // Config Health Check and Swagger UI
   const config = new DocumentBuilder()
