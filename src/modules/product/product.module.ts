@@ -4,12 +4,14 @@ import { ProductController } from './product.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import ProductEntity from 'src/entities/product.entity';
 import { UserEntity } from 'src/entities/user.entity';
-
+import { ScheduleModule } from '@nestjs/schedule';
+import { CronService } from './cron.service';
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ProductEntity, UserEntity])
+    TypeOrmModule.forFeature([ProductEntity, UserEntity]),
+    ScheduleModule.forRoot(),
   ],
   controllers: [ProductController],
-  providers: [ProductService]
+  providers: [ProductService, CronService],
 })
 export class ProductModule {}
