@@ -1,6 +1,6 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { createHmac } from 'crypto';
-
+import ProductEntity from './product.entity'
 // Auto mapping to table has name like class name
 // If you want to change it to mapping with the other table using @Entity('table_name')
 @Entity('users')
@@ -25,6 +25,9 @@ export class UserEntity {
 
   @Column({type: 'bool'})
   isActive: boolean;
+
+  @OneToMany(()=> ProductEntity, product => product.user)
+  products: ProductEntity[];
 
   @BeforeInsert()
   hashPassword() {

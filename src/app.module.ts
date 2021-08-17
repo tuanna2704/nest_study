@@ -36,6 +36,7 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
       password: configService.get('DB_PASSWORD'),
       database: configService.get('DB_DATABASE'),
       entities: [join(__dirname, '**/entities', '*.entity.{ts,js}')],
+      logging: "all",
       // creates the table once if it does not exists.
       // synchronize: configService.get('DB_SYNC') === 'true',
     } as TypeOrmModuleAsyncOptions;
