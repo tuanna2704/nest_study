@@ -34,6 +34,7 @@ export class AppController {
 
   @Get('show_caching')
   async showCaching(): Promise<string> {
+    console.log(this)
     const value = await this.cacheManager.get('tuanna');
     return 'Show cache page: ' + value
   }
