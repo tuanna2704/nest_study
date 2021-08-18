@@ -8,7 +8,9 @@ import { UserModule } from './modules/user/user.module';
 import baseConfig from 'src/config/configuration'
 import { join } from 'path';
 import { ProductModule } from './modules/product/product.module';
+import { BullModule } from '@nestjs/bull';
 
+import { MessageProducerService, MessageConsumer } from 'src/modules/product/services/message-queue.service'
 const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',
   load: [baseConfig],
@@ -50,8 +52,17 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
     ormModuleConfig,
     UserModule,
     ProductModule,
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+    BullModule.registerQueue({
+      name:'message-queue'
+    })
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, MessageProducerService, MessageConsumer],
 })
 export class AppModule {}

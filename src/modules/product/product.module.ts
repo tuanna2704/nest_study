@@ -5,7 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import ProductEntity from 'src/entities/product.entity';
 import { UserEntity } from 'src/entities/user.entity';
 import { ScheduleModule } from '@nestjs/schedule';
-import { CronService } from './cron.service';
+import { CronService } from './services/cron.service';
+
+// import { MessageProducerService, MessageConsumer } from './services/message-queue.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([ProductEntity, UserEntity]),

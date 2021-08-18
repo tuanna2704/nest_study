@@ -1,14 +1,16 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/common/cache'
 import { Cache } from 'cache-manager';
 import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
+import { MessageProducerService } from 'src/modules/product/services/message-queue.service';
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private configService: ConfigService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly messageProducerService: MessageProducerService,
   ) {}
 
   @Get()
@@ -42,5 +44,13 @@ export class AppController {
   @Get('health_check')
   health(): string {
     return 'OK';
+  }
+
+  @Get('abc')
+  async getInvokeMsg(@Query('msg') msg:string){
+    this.messageProducerService.sendMessage(msg);
+    const a = await this.messageProducerService.getDelayed(); 
+    console.log('tuan' + a)
+    return a;
   }
 }
