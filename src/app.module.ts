@@ -11,6 +11,7 @@ import { ProductModule } from './modules/product/product.module';
 import { BullModule } from '@nestjs/bull';
 
 import { MessageProducerService, MessageConsumer } from 'src/modules/product/services/message-queue.service'
+import { AudioModule } from 'src/modules/audio/audio.module'
 const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',
   load: [baseConfig],
@@ -60,7 +61,8 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
     }),
     BullModule.registerQueue({
       name:'message-queue'
-    })
+    }),
+    AudioModule
   ],
   controllers: [AppController],
   providers: [AppService, MessageProducerService, MessageConsumer],
