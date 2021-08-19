@@ -9,9 +9,8 @@ import baseConfig from 'src/config/configuration'
 import { join } from 'path';
 import { ProductModule } from './modules/product/product.module';
 import { BullModule } from '@nestjs/bull';
-
-import { MessageProducerService, MessageConsumer } from 'src/modules/product/services/message-queue.service'
 import { AudioModule } from 'src/modules/audio/audio.module'
+
 const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',
   load: [baseConfig],
@@ -59,12 +58,9 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
         port: 6379,
       },
     }),
-    BullModule.registerQueue({
-      name:'message-queue'
-    }),
     AudioModule
   ],
   controllers: [AppController],
-  providers: [AppService, MessageProducerService, MessageConsumer],
+  providers: [AppService],
 })
 export class AppModule {}
