@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Req, Res } from '@nestjs/common';
+import { Controller, Get, Inject, Req, Res, Session } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/common/cache'
 import { Cache } from 'cache-manager';
 import { AppService } from './app.service';
@@ -69,5 +69,17 @@ export class AppController {
     // Attach cookie into response to set in client
     // response.cookie('tuanna', 'nguyen anh tuan')
     // or console.log(request.signedCookies);
+  }
+
+  @Get('test_session')
+  testSession(
+    @Session() session: Record<string, any>,
+    @Req() request: Request,
+  ) {
+    console.log(session)
+    console.log(request.cookies)
+    session.visits = session.visits ? session.visits + 1 : 1;
+
+    return session.visits
   }
 }
