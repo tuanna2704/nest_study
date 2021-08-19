@@ -2,12 +2,13 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     // logger: console,
   });
-
+  app.use(cookieParser());
   // app.useGlobalPipes(
   //   new ValidationPipe({
   //     whitelist: true,

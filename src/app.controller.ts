@@ -1,8 +1,9 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Get, Inject, Req, Res } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/common/cache'
 import { Cache } from 'cache-manager';
 import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
+import { Request, Response } from 'express';
 @Controller()
 export class AppController {
   constructor(
@@ -42,5 +43,31 @@ export class AppController {
   @Get('health_check')
   health(): string {
     return 'OK';
+  }
+
+  @Get('test_cookie')
+  testCookie(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response
+  ) {
+    // Show cookie request send
+    console.log(request.cookies); // or "request.cookies['cookieKey']"
+
+    // Attach cookie into response to set in client
+    response.cookie('tuanna', 'nguyen anh tuan')
+    // or console.log(request.signedCookies);
+  }
+
+  @Get('test_cookie_2')
+  findAll(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response
+  ) {
+    // Show cookie request send
+    console.log(request.cookies); // or "request.cookies['cookieKey']"
+
+    // Attach cookie into response to set in client
+    // response.cookie('tuanna', 'nguyen anh tuan')
+    // or console.log(request.signedCookies);
   }
 }
