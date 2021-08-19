@@ -1,12 +1,14 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Controller, Get, Post } from '@nestjs/common';
 import { Queue } from 'bull';
-import { HttpService } from '@nestjs/axios'
+import { HttpService } from '@nestjs/axios';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 @Controller('audio')
 export class AudioController {
   constructor(
     private httpService: HttpService,
-    @InjectQueue('audio') private readonly audioQueue: Queue
+    @InjectQueue('audio') private readonly audioQueue: Queue,
+    private eventEmitter: EventEmitter2
   ) {}
 
   @Post('transcode')
@@ -25,5 +27,10 @@ export class AudioController {
     })
     console.log(a)
     return 'd'
+  }
+
+  @Get('test_event')
+  async testEvent() {
+    return this.eventEmitter.emit('stuff_event', {data: 'some stuff data was send when emit'});
   }
 }
