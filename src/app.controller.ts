@@ -1,9 +1,10 @@
-import { Controller, Get, Inject, Req, Res, Session } from '@nestjs/common';
+import { Controller, Get, Inject, Req, Res, Session, Sse, MessageEvent } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/common/cache'
 import { Cache } from 'cache-manager';
 import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
+import { Observable, interval, map } from 'rxjs';
 @Controller()
 export class AppController {
   constructor(
@@ -81,5 +82,12 @@ export class AppController {
     session.visits = session.visits ? session.visits + 1 : 1;
 
     return session.visits
+  }
+
+  @Sse('sse')
+  sse(): Observable<MessageEvent> {
+    return interval(5000).pipe(map((index) => {
+      return { data: { time: new Date() } }
+    }));
   }
 }
