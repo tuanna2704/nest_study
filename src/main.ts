@@ -1,14 +1,16 @@
 // import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 
 import * as cookieParser from 'cookie-parser';
 import * as compression from 'compression';
 import * as session from 'express-session';
+import { resolve } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     // logger: console,
   });
   app.use(cookieParser());
@@ -18,6 +20,10 @@ async function bootstrap() {
     resave: false,
     saveUninitialized: false,
   }));
+
+  app.useStaticAssets(resolve('./src/public'));
+  app.setBaseViewsDir(resolve('./src/views'));
+  app.setViewEngine('hbs');
   // app.useGlobalPipes(
   //   new ValidationPipe({
   //     whitelist: true,

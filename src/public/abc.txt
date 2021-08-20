@@ -1,0 +1,2 @@
+demo assest file get from assest public folder
+Go to http://localhost:3000/abc.txt

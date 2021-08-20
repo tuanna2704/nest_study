@@ -1,5 +1,5 @@
 import { InjectQueue } from '@nestjs/bull';
-import { Controller, Get, Post, UploadedFile, UseInterceptors, Body, Res, StreamableFile } from '@nestjs/common';
+import { Controller, Get, Post, UploadedFile, UseInterceptors, Body, Res, StreamableFile, Render } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Queue } from 'bull';
 import { HttpService } from '@nestjs/axios';
@@ -54,4 +54,9 @@ export class AudioController {
     return new StreamableFile(file);
   }
 
+  @Get('demo_mvc')
+  @Render('index')
+  getView() {
+    return { message: 'Hello World!' }
+  }
 }
