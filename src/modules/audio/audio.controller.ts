@@ -1,9 +1,11 @@
 import { InjectQueue } from '@nestjs/bull';
-import { Controller, Get, Post, UploadedFile, UseInterceptors, Body } from '@nestjs/common';
+import { Controller, Get, Post, UploadedFile, UseInterceptors, Body, Res, StreamableFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Queue } from 'bull';
 import { HttpService } from '@nestjs/axios';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { createReadStream } from 'fs'
+import { join } from 'path';
 @Controller('audio')
 export class AudioController {
   constructor(
@@ -45,4 +47,11 @@ export class AudioController {
     console.log(body)
     console.log(file);
   }
+
+  @Get('demo_streaming_file')
+  getFile(): StreamableFile {
+    const file = createReadStream(join(process.cwd(), 'package.json'));
+    return new StreamableFile(file);
+  }
+
 }
