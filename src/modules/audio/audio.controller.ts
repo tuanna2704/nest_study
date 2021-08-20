@@ -1,5 +1,6 @@
 import { InjectQueue } from '@nestjs/bull';
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, UploadedFile, UseInterceptors, Body } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { Queue } from 'bull';
 import { HttpService } from '@nestjs/axios';
 import { EventEmitter2 } from '@nestjs/event-emitter';
@@ -32,5 +33,16 @@ export class AudioController {
   @Get('test_event')
   async testEvent() {
     return this.eventEmitter.emit('stuff_event', {data: 'some stuff data was send when emit'});
+  }
+
+  // curl --location --request POST 'http://localhost:3000/audio/upload' --form 'file=@"/Users/tuannna2704/Downloads/avatar.jpeg"' --form 'another_field="data value"'
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(
+    @Body() body,
+    @UploadedFile() file: Express.Multer.File
+  ) {
+    console.log(body)
+    console.log(file);
   }
 }
