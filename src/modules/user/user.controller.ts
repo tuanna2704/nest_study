@@ -30,7 +30,7 @@ export class UserController {
   }
 
   @Get('new')
-  @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(new LoggingInterceptor(true))
   new(){
     console.log('process page')
     return 'new page'

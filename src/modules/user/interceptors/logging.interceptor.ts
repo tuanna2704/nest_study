@@ -1,18 +1,28 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Response } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 
 @Injectable()
-export class LoggingInterceptor implements NestInterceptor {
+export class LoggingInterceptor<T> implements NestInterceptor {
+  showLog: boolean = false;
+
+  constructor(showLog?: boolean) {
+    console.log(showLog)
+    this.showLog = showLog;
+  }
+
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    console.log('Before...');
-    console.log(context);
-    console.log(next);
+    if(this.showLog) {
+      console.log('Before...');
+      console.log(context);
+      console.log(next);
+    }
     const now = Date.now();
-    return next
-      .handle()
-      .pipe(
+    return this.showLog 
+    ? next.handle().pipe(
         tap(() => console.log(`After... ${Date.now() - now}ms`)),
-      );
+        map(data => ({ data }))
+      )
+    : next.handle()
   }
 }
