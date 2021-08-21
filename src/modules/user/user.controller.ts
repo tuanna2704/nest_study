@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseInterceptors } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDTO } from './dtos/create-user.dto';
-import { UserEntity } from 'src/entities/user.entity'
+import { UserEntity } from 'src/entities/user.entity';
+import { LoggingInterceptor } from './interceptors/logging.interceptor'
 @Controller('user')
 export class UserController {
   
@@ -29,7 +30,9 @@ export class UserController {
   }
 
   @Get('new')
+  @UseInterceptors(LoggingInterceptor)
   new(){
+    console.log('process page')
     return 'new page'
   }
 
