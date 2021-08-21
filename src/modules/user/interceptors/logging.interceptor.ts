@@ -13,14 +13,12 @@ export class LoggingInterceptor<T> implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     if(this.showLog) {
-      console.log('Before...');
-      console.log(context);
-      console.log(next);
+      console.log('Before Interceptor ...');
     }
     const now = Date.now();
     return this.showLog 
     ? next.handle().pipe(
-        tap(() => console.log(`After... ${Date.now() - now}ms`)),
+        tap(() => console.log(`After Interceptor... ${Date.now() - now}ms`)),
         map(data => ({ data }))
       )
     : next.handle()
