@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseInterceptors, UseGuards, UsePipes, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseInterceptors, UseGuards, UsePipes, Query, UseFilters } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDTO } from './dtos/create-user.dto';
@@ -6,6 +6,7 @@ import { UserEntity } from 'src/entities/user.entity';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { LoggingGuard } from './guards/logging.guard';
 import { LoggingTranformPipe, LoggingValidationPipe } from './pipes/logging.pipe';
+import { AllExceptionsFilter } from './filters/all-exceptions.filter';
 @Controller('user')
 export class UserController {
   
@@ -48,6 +49,7 @@ export class UserController {
   @UseInterceptors(new LoggingInterceptor(true))
   @UseGuards(LoggingGuard)
   @UsePipes(LoggingValidationPipe)
+  @UseFilters(AllExceptionsFilter)
   @Get(':id')
   show(
     @Param('id', LoggingTranformPipe) id: number 

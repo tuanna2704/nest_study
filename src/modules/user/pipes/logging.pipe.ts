@@ -13,8 +13,7 @@ export class LoggingTranformPipe implements PipeTransform {
 export class LoggingValidationPipe implements PipeTransform {
 
   transform(value: any, metadata: ArgumentMetadata) {
-    console.log(value, metadata)
     console.log('Exec Validate Pipe...')
-    return 'abc';
+    return value;
   }
 }
