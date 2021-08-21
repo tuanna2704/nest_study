@@ -7,7 +7,6 @@ export class LoggingInterceptor<T> implements NestInterceptor {
   showLog: boolean = false;
 
   constructor(showLog?: boolean) {
-    console.log(showLog)
     this.showLog = showLog;
   }
 

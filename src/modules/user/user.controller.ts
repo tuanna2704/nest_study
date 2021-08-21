@@ -1,11 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseInterceptors, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseInterceptors, UseGuards, UsePipes, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDTO } from './dtos/create-user.dto';
 import { UserEntity } from 'src/entities/user.entity';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { LoggingGuard } from './guards/logging.guard';
-
+import { LoggingTranformPipe, LoggingValidationPipe } from './pipes/logging.pipe';
 @Controller('user')
 export class UserController {
   
@@ -32,8 +32,6 @@ export class UserController {
   }
 
   @Get('new')
-  @UseInterceptors(new LoggingInterceptor(true))
-  @UseGuards(LoggingGuard)
   new(){
     console.log('process page')
     return 'new page'
@@ -47,9 +45,14 @@ export class UserController {
     return dto;
   }
 
-
+  @UseInterceptors(new LoggingInterceptor(true))
+  @UseGuards(LoggingGuard)
+  @UsePipes(LoggingValidationPipe)
   @Get(':id')
-  show( @Param('id', ParseIntPipe) id: number ) {
+  show(
+    @Param('id', LoggingTranformPipe) id: number 
+  ) {
+    console.log('Controller Executing...')
     return {
       message: 'getOne',
       id
