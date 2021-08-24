@@ -10,6 +10,8 @@ import { join } from 'path';
 import { ProductModule } from './modules/product/product.module';
 import { BullModule } from '@nestjs/bull';
 import { AudioModule } from 'src/modules/audio/audio.module'
+import { Transport, ClientsModule } from '@nestjs/microservices';
+import { KafkaController } from './kafka.controller';
 
 const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',
@@ -58,9 +60,33 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
         port: 6379,
       },
     }),
-    AudioModule
+    AudioModule,
+    ClientsModule.registerAsync([
+      {
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        name: 'KAFKA_SERVICE',
+        useFactory: (configService: ConfigService) => {
+          return {
+            transport: Transport.KAFKA,
+            options: {
+              client: {
+                clientId: configService.get<string>('KAFKA_CLIENT_ID'),
+                brokers: [configService.get<string>('KAFKA_BROKER')],
+              },
+              consumer: {
+                groupId: configService.get<string>('KAFKA_GROUP_ID') // Should be the same thing we give in consumer
+              }
+            }
+          }
+        },
+        
+      }
+    ]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, KafkaController],
+  providers: [
+    AppService,
+  ],
 })
 export class AppModule {}
