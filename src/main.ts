@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
+import { join } from 'path';
 
 import * as cookieParser from 'cookie-parser';
 import * as compression from 'compression';
@@ -23,6 +24,14 @@ async function bootstrap() {
         brokers: ['localhost:9092'],
       }
     }
+  });
+
+  app.connectMicroservice({
+    transport: Transport.GRPC,
+    options: {
+      package: 'caculator_package',
+      protoPath: join(__dirname, '../modules/grpc-service/grpc-service.proto'),
+    },
   });
   
   app.use(cookieParser());

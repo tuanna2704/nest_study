@@ -12,6 +12,7 @@ import { BullModule } from '@nestjs/bull';
 import { AudioModule } from 'src/modules/audio/audio.module'
 import { Transport, ClientsModule } from '@nestjs/microservices';
 import { KafkaController } from './kafka.controller';
+import { GrpcServiceModule } from './modules/grpc-service/grpc-service.module';
 
 const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',
@@ -80,9 +81,28 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
             }
           }
         },
-        
-      }
+      },
+      { 
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        name: 'KAFKA_SERVICE',
+        useFactory: (configService: ConfigService) => {
+          return {
+            transport: Transport.KAFKA,
+            options: {
+              client: {
+                clientId: configService.get<string>('KAFKA_CLIENT_ID'),
+                brokers: [configService.get<string>('KAFKA_BROKER')],
+              },
+              consumer: {
+                groupId: configService.get<string>('KAFKA_GROUP_ID') // Should be the same thing we give in consumer
+              }
+            }
+          }
+        },
+      },
     ]),
+    GrpcServiceModule,
   ],
   controllers: [AppController, KafkaController],
   providers: [
