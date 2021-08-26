@@ -9,7 +9,7 @@ export class CronService {
   // handleByExpression() {
   //   this.logger.debug('Called every 30 seconds');
   // }
-  
+
   // @Cron('45 * * * * *')
   // handleCronByRule() {
   //   this.logger.debug('Called when the current second is 45');

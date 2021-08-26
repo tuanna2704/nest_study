@@ -5,11 +5,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as redisStore from 'cache-manager-redis-store';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
-import baseConfig from 'src/config/configuration'
+import baseConfig from 'src/config/configuration';
 import { join } from 'path';
 import { ProductModule } from './modules/product/product.module';
 import { BullModule } from '@nestjs/bull';
-import { AudioModule } from 'src/modules/audio/audio.module'
+import { AudioModule } from 'src/modules/audio/audio.module';
 import { Transport, ClientsModule } from '@nestjs/microservices';
 import { KafkaController } from './kafka.controller';
 import { GrpcServiceModule } from './modules/grpc-service/grpc-service.module';
@@ -17,7 +17,7 @@ import { GrpcServiceModule } from './modules/grpc-service/grpc-service.module';
 const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',
   load: [baseConfig],
-})
+});
 const cacheConfig = CacheModule.registerAsync({
   imports: [ConfigModule],
   useFactory: async (configService: ConfigService) => ({
@@ -27,7 +27,7 @@ const cacheConfig = CacheModule.registerAsync({
     ttl: configService.get<number>('REDIS_TTL'),
   }),
   inject: [ConfigService],
-})
+});
 
 const ormModuleConfig = TypeOrmModule.forRootAsync({
   imports: [ConfigModule],
@@ -41,12 +41,12 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
       password: configService.get('DB_PASSWORD'),
       database: configService.get('DB_DATABASE'),
       entities: [join(__dirname, '**/entities', '*.entity.{ts,js}')],
-      logging: "all",
+      logging: 'all',
       // creates the table once if it does not exists.
       // synchronize: configService.get('DB_SYNC') === 'true',
     } as TypeOrmModuleAsyncOptions;
   },
-})
+});
 
 @Module({
   imports: [
@@ -76,13 +76,13 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
                 brokers: [configService.get<string>('KAFKA_BROKER')],
               },
               consumer: {
-                groupId: configService.get<string>('KAFKA_GROUP_ID') // Should be the same thing we give in consumer
-              }
-            }
-          }
+                groupId: configService.get<string>('KAFKA_GROUP_ID'), // Should be the same thing we give in consumer
+              },
+            },
+          };
         },
       },
-      { 
+      {
         imports: [ConfigModule],
         inject: [ConfigService],
         name: 'KAFKA_SERVICE',
@@ -95,18 +95,16 @@ const ormModuleConfig = TypeOrmModule.forRootAsync({
                 brokers: [configService.get<string>('KAFKA_BROKER')],
               },
               consumer: {
-                groupId: configService.get<string>('KAFKA_GROUP_ID') // Should be the same thing we give in consumer
-              }
-            }
-          }
+                groupId: configService.get<string>('KAFKA_GROUP_ID'), // Should be the same thing we give in consumer
+              },
+            },
+          };
         },
       },
     ]),
     GrpcServiceModule,
   ],
   controllers: [AppController, KafkaController],
-  providers: [
-    AppService,
-  ],
+  providers: [AppService],
 })
 export class AppModule {}

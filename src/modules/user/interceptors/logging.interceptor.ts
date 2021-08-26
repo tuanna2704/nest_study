@@ -1,4 +1,10 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Response } from '@nestjs/common';
+import {
+  Injectable,
+  NestInterceptor,
+  ExecutionContext,
+  CallHandler,
+  Response,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 
@@ -11,15 +17,15 @@ export class LoggingInterceptor<T> implements NestInterceptor {
   }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    if(this.showLog) {
+    if (this.showLog) {
       console.log('Before Interceptor ...');
     }
     const now = Date.now();
-    return this.showLog 
-    ? next.handle().pipe(
-        tap(() => console.log(`After Interceptor... ${Date.now() - now}ms`)),
-        map(data => ({ data }))
-      )
-    : next.handle()
+    return this.showLog
+      ? next.handle().pipe(
+          tap(() => console.log(`After Interceptor... ${Date.now() - now}ms`)),
+          map((data) => ({ data })),
+        )
+      : next.handle();
   }
 }

@@ -5,9 +5,9 @@ import { OnEvent } from '@nestjs/event-emitter';
 export class ProductListener {
   @OnEvent('stuff_event')
   handleStuffEvent(eventData) {
-    console.log('-----------')
-    console.log('this log come from product listener')
+    console.log('-----------');
+    console.log('this log come from product listener');
     console.log(eventData);
-    console.log('-----------')
+    console.log('-----------');
   }
 }

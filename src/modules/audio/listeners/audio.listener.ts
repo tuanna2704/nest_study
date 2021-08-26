@@ -5,6 +5,6 @@ import { OnEvent } from '@nestjs/event-emitter';
 export class AudioListener {
   @OnEvent('stuff_event')
   handleStuffEvent(eventData) {
-    console.log(eventData)
+    console.log(eventData);
   }
 }

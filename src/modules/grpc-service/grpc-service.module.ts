@@ -16,13 +16,16 @@ import { GrpcServiceController } from './grpc-service.controller';
             transport: Transport.GRPC,
             options: {
               package: 'caculator_package',
-              protoPath: join(cwd(), 'dist/modules/grpc-service/grpc-service.proto'),
+              protoPath: join(
+                cwd(),
+                'dist/modules/grpc-service/grpc-service.proto',
+              ),
             },
-          }
-        }
-      }
-    ])
+          };
+        },
+      },
+    ]),
   ],
-  controllers: [GrpcServiceController]
+  controllers: [GrpcServiceController],
 })
 export class GrpcServiceModule {}

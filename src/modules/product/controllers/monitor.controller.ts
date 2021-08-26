@@ -7,15 +7,17 @@ export class MonitorController {
     private readonly messageProducerService: MessageProducerService,
     private eventEmitter: EventEmitter2,
   ) {}
-  
+
   @Get('abc')
-  async getInvokeMsg(@Query('msg') msg:string){
+  async getInvokeMsg(@Query('msg') msg: string) {
     await this.messageProducerService.sendMessage(msg);
-    return await this.messageProducerService.getDelayed(); 
+    return await this.messageProducerService.getDelayed();
   }
 
   @Get('test_event')
   async testEvent() {
-    return this.eventEmitter.emit('stuff_event', {data: 'some stuff data was send when emit'});
+    return this.eventEmitter.emit('stuff_event', {
+      data: 'some stuff data was send when emit',
+    });
   }
 }

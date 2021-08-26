@@ -22,8 +22,8 @@ async function bootstrap() {
     options: {
       client: {
         brokers: ['localhost:9092'],
-      }
-    }
+      },
+    },
   });
 
   app.connectMicroservice({
@@ -33,14 +33,16 @@ async function bootstrap() {
       protoPath: join(__dirname, '../modules/grpc-service/grpc-service.proto'),
     },
   });
-  
+
   app.use(cookieParser());
   app.use(compression());
-  app.use(session({
-    secret: 'my-secret',
-    resave: false,
-    saveUninitialized: false,
-  }));
+  app.use(
+    session({
+      secret: 'my-secret',
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
 
   app.useStaticAssets(resolve('./src/public'));
   app.setBaseViewsDir(resolve('./src/views'));

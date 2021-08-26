@@ -4,7 +4,7 @@ import { HttpModule } from '@nestjs/axios';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AudioController } from './audio.controller';
 import { AudioProcessor } from './audio.procesor';
-import { AudioListener } from './listeners/audio.listener'
+import { AudioListener } from './listeners/audio.listener';
 @Module({
   imports: [
     BullModule.registerQueue({
@@ -14,7 +14,7 @@ import { AudioListener } from './listeners/audio.listener'
       timeout: 5000,
       maxRedirects: 5,
     }),
-    EventEmitterModule.forRoot()
+    EventEmitterModule.forRoot(),
   ],
   controllers: [AudioController],
   providers: [AudioProcessor, AudioListener],

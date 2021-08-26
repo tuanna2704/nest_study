@@ -1,5 +1,14 @@
-import { Controller, Get, Inject, Req, Res, Session, Sse, MessageEvent } from '@nestjs/common';
-import { CACHE_MANAGER } from '@nestjs/common/cache'
+import {
+  Controller,
+  Get,
+  Inject,
+  Req,
+  Res,
+  Session,
+  Sse,
+  MessageEvent,
+} from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/common/cache';
 import { Cache } from 'cache-manager';
 import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
@@ -23,22 +32,22 @@ export class AppController {
   // Go to this page by URL: /test/subTest/foo/subFoo
   @Get('foo/subFoo')
   getFoo(): string {
-    const { DATABASE_USER, DATABASE_PASSWORD } = process.env
-    return `UserName: ${DATABASE_USER}, Password: ${DATABASE_PASSWORD}`
+    const { DATABASE_USER, DATABASE_PASSWORD } = process.env;
+    return `UserName: ${DATABASE_USER}, Password: ${DATABASE_PASSWORD}`;
   }
 
   // Go to this page by URL: /test/subTest/foo/subFoo
   @Get('set_caching')
   async testCaching(): Promise<string> {
     await this.cacheManager.set('tuanna', 'stuff value');
-    return 'Set cache page'
+    return 'Set cache page';
   }
 
   @Get('show_caching')
   async showCaching(): Promise<string> {
-    console.log(this)
+    console.log(this);
     const value = await this.cacheManager.get('tuanna');
-    return 'Show cache page: ' + value
+    return 'Show cache page: ' + value;
   }
 
   @Get('health_check')
@@ -49,20 +58,20 @@ export class AppController {
   @Get('test_cookie')
   testCookie(
     @Req() request: Request,
-    @Res({ passthrough: true }) response: Response
+    @Res({ passthrough: true }) response: Response,
   ) {
     // Show cookie request send
     console.log(request.cookies); // or "request.cookies['cookieKey']"
 
     // Attach cookie into response to set in client
-    response.cookie('tuanna', 'nguyen anh tuan')
+    response.cookie('tuanna', 'nguyen anh tuan');
     // or console.log(request.signedCookies);
   }
 
   @Get('test_cookie_2')
   findAll(
     @Req() request: Request,
-    @Res({ passthrough: true }) response: Response
+    @Res({ passthrough: true }) response: Response,
   ) {
     // Show cookie request send
     console.log(request.cookies); // or "request.cookies['cookieKey']"
@@ -77,17 +86,19 @@ export class AppController {
     @Session() session: Record<string, any>,
     @Req() request: Request,
   ) {
-    console.log(session)
-    console.log(request.cookies)
+    console.log(session);
+    console.log(request.cookies);
     session.visits = session.visits ? session.visits + 1 : 1;
 
-    return session.visits
+    return session.visits;
   }
 
   @Sse('sse')
   sse(): Observable<MessageEvent> {
-    return interval(5000).pipe(map((index) => {
-      return { data: { time: new Date() } }
-    }));
+    return interval(5000).pipe(
+      map((index) => {
+        return { data: { time: new Date() } };
+      }),
+    );
   }
 }

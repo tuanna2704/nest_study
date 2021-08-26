@@ -9,23 +9,23 @@ export class GrpcServiceController {
     { id: 2, name: 'Doe' },
   ];
 
-  constructor (
+  constructor(
     @Inject('GRPC_MICROSERVICE') private grpcClient: ClientGrpcProxy,
   ) {}
   private logger = new Logger('GrpcServiceController');
 
   onModuleInit() {
     this.grpcService = this.grpcClient.getService('GrpcDemoController');
-  }   
+  }
 
   @Get()
-  find(@Query() { data })  {
-    console.log(this.grpcService)
+  find(@Query() { data }) {
+    console.log(this.grpcService);
     return this.grpcService.findOne({ id: 1 });
   }
 
   @Get('all')
-  findAll()  {
+  findAll() {
     return this.grpcService.findAll();
   }
 
@@ -41,7 +41,6 @@ export class GrpcServiceController {
 
   @GrpcMethod('GrpcDemoController', 'FindAll')
   findAllGRPC() {
-    return this.items
+    return this.items;
   }
-
 }

@@ -10,18 +10,27 @@ import { UserEntity } from 'src/entities/user.entity';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CronService } from './services/cron.service';
 
-import { MessageProducerService, MessageConsumer } from './services/message-queue.service';
-import { ProductListener } from './listeners/product.listener'
+import {
+  MessageProducerService,
+  MessageConsumer,
+} from './services/message-queue.service';
+import { ProductListener } from './listeners/product.listener';
 @Module({
   imports: [
     TypeOrmModule.forFeature([ProductEntity, UserEntity]),
     ScheduleModule.forRoot(),
     BullModule.registerQueue({
-      name:'message-queue'
+      name: 'message-queue',
     }),
-    EventEmitterModule.forRoot()
+    EventEmitterModule.forRoot(),
   ],
   controllers: [MonitorController, ProductController],
-  providers: [ProductService, CronService, MessageProducerService, MessageConsumer, ProductListener],
+  providers: [
+    ProductService,
+    CronService,
+    MessageProducerService,
+    MessageConsumer,
+    ProductListener,
+  ],
 })
 export class ProductModule {}
