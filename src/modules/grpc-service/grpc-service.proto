@@ -4,10 +4,17 @@ package caculator_package;
 
 service GrpcDemoController {
   rpc FindOne (HeroById) returns (Hero) {}
+  rpc FindAll (Empty) returns (Heros) {}
 }
+
+message Empty {}
 
 message HeroById {
   int32 id = 1;
+}
+
+message Heros {
+  repeated Heros heros = 1;
 }
 
 message Hero {
