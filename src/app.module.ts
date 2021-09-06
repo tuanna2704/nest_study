@@ -6,7 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { 
   ConfigModule, 
-  // ConfigService,
+  ConfigService,
 } from '@nestjs/config';
 // import * as redisStore from 'cache-manager-redis-store';
 // import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
@@ -58,8 +58,14 @@ const config = ConfigModule.forRoot({
 @Module({
   imports: [
     config,
-    ChangeHealthModule.register({
-      host: 'nguyen anh tuan'
+    ChangeHealthModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return {
+          host: 'Demo add config into module',
+        }
+      }
     }), 
   //   cacheConfig,
   //   ormModuleConfig,

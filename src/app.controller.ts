@@ -21,7 +21,7 @@ export class AppController {
     private readonly appService: AppService,
     private configService: ConfigService,
     // @Inject(CACHE_MANAGER) private cacheManager: Cache,
-    private health: ChangeHealthService,
+    // private health: ChangeHealthService,
   ) {}
 
   @Get()
@@ -33,7 +33,7 @@ export class AppController {
 
   @Get('health')
   healthCheck(): string {
-    return this.health.call();
+    return 'this.health.call()';
   }
 
   // Go to this page by URL: /test/subTest/foo/subFoo
