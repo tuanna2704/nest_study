@@ -58,7 +58,9 @@ const config = ConfigModule.forRoot({
 @Module({
   imports: [
     config,
-    ChangeHealthModule, 
+    ChangeHealthModule.register({
+      host: 'nguyen anh tuan'
+    }), 
   //   cacheConfig,
   //   ormModuleConfig,
   //   UserModule,
