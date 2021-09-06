@@ -8,6 +8,9 @@ import { ChangeHealthService } from './change-health.service';
   ],
   providers: [
     ChangeHealthService
+  ],
+  exports: [
+    ChangeHealthService
   ]
 })
 export class ChangeHealthModule {}

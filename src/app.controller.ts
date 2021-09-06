@@ -14,12 +14,14 @@ import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { Observable, interval, map } from 'rxjs';
+import { ChangeHealthService } from 'src/modules/change-health/change-health.service'
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private configService: ConfigService,
     // @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private health: ChangeHealthService,
   ) {}
 
   @Get()
@@ -27,6 +29,11 @@ export class AppController {
     // console.log(this.configService.get<string>('DATABASE_USER'))
     const test = this.configService.get<string>('test');
     return `${this.appService.getHello()} - ${test}`;
+  }
+
+  @Get('health')
+  healthCheck(): string {
+    return this.health.call();
   }
 
   // Go to this page by URL: /test/subTest/foo/subFoo
@@ -49,11 +56,6 @@ export class AppController {
   //   const value = await this.cacheManager.get('tuanna');
   //   return 'Show cache page: ' + value;
   // }
-
-  @Get('health_check')
-  health(): string {
-    return 'OK';
-  }
 
   @Get('test_cookie')
   testCookie(

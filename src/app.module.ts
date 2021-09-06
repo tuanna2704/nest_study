@@ -116,6 +116,8 @@ const config = ConfigModule.forRoot({
     AppController,
     // KafkaController, 
   ],
-  providers: [AppService],
+  providers: [
+    AppService,
+  ],
 })
 export class AppModule {}
