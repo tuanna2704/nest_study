@@ -8,7 +8,7 @@ import {
   Sse,
   MessageEvent,
 } from '@nestjs/common';
-import { CACHE_MANAGER } from '@nestjs/common/cache';
+// import { CACHE_MANAGER } from '@nestjs/common/cache';
 import { Cache } from 'cache-manager';
 import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
@@ -19,7 +19,7 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     private configService: ConfigService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    // @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   @Get()
@@ -37,18 +37,18 @@ export class AppController {
   }
 
   // Go to this page by URL: /test/subTest/foo/subFoo
-  @Get('set_caching')
-  async testCaching(): Promise<string> {
-    await this.cacheManager.set('tuanna', 'stuff value');
-    return 'Set cache page';
-  }
+  // @Get('set_caching')
+  // async testCaching(): Promise<string> {
+  //   await this.cacheManager.set('tuanna', 'stuff value');
+  //   return 'Set cache page';
+  // }
 
-  @Get('show_caching')
-  async showCaching(): Promise<string> {
-    console.log(this);
-    const value = await this.cacheManager.get('tuanna');
-    return 'Show cache page: ' + value;
-  }
+  // @Get('show_caching')
+  // async showCaching(): Promise<string> {
+  //   console.log(this);
+  //   const value = await this.cacheManager.get('tuanna');
+  //   return 'Show cache page: ' + value;
+  // }
 
   @Get('health_check')
   health(): string {

@@ -17,14 +17,14 @@ async function bootstrap() {
     // logger: console,
   });
 
-  app.connectMicroservice({
-    transport: Transport.KAFKA,
-    options: {
-      client: {
-        brokers: ['localhost:9092'],
-      },
-    },
-  });
+  // app.connectMicroservice({
+  //   transport: Transport.KAFKA,
+  //   options: {
+  //     client: {
+  //       brokers: ['localhost:9092'],
+  //     },
+  //   },
+  // });
 
   app.connectMicroservice({
     transport: Transport.GRPC,
