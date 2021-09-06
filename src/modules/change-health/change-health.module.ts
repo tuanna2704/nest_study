@@ -56,7 +56,7 @@ export class ChangeHealthModule {
     return {
       provide: CHANGE_HEALTH_OPTIONS,
       useFactory: async (optionsFactory: ChangeHealthOptionsFactory) =>
-        await optionsFactory.createMassiveConnectOptions(),
+        await optionsFactory.createOptions(),
       inject: [options.useExisting || options.useClass],
     };
   }

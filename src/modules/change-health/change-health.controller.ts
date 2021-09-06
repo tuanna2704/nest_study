@@ -1,7 +1,7 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ChangeHealthService } from './change-health.service'
 import { CHANGE_HEALTH_OPTIONS } from './constants';
-import { ChangeHealthOptions } from './interfaces/change-health-module-options.interface';
+import { ChangeHealthOptions } from './interfaces';
 
 @Controller('change-health')
 export class ChangeHealthController {

@@ -14,7 +14,7 @@ import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { Observable, interval, map } from 'rxjs';
-import { ChangeHealthService } from 'src/modules/change-health/change-health.service'
+import { ChangeHealthService } from 'src/modules/change-health'
 @Controller()
 export class AppController {
   constructor(

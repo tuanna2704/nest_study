@@ -19,7 +19,7 @@ import baseConfig from 'src/config/configuration';
 // import { Transport, ClientsModule } from '@nestjs/microservices';
 // import { KafkaController } from './kafka.controller';
 // import { GrpcServiceModule } from './modules/grpc-service/grpc-service.module';
-import { ChangeHealthModule } from 'src/modules/change-health/change-health.module';
+import { ChangeHealthModule } from 'src/modules/change-health';
 
 const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',

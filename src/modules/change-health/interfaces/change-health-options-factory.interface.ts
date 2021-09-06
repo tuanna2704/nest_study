@@ -1,7 +1,7 @@
 import { ChangeHealthOptions } from './change-health-module-options.interface';
 
 export interface ChangeHealthOptionsFactory {
-  createMassiveConnectOptions():
+  createOptions():
     | Promise<ChangeHealthOptions>
     | ChangeHealthOptions;
 }
