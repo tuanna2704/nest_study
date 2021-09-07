@@ -1,4 +1,5 @@
 import { 
+  Injectable,
   // CacheModule,
   Module 
 } from '@nestjs/common';
@@ -19,7 +20,7 @@ import baseConfig from 'src/config/configuration';
 // import { Transport, ClientsModule } from '@nestjs/microservices';
 // import { KafkaController } from './kafka.controller';
 // import { GrpcServiceModule } from './modules/grpc-service/grpc-service.module';
-import { ChangeHealthModule } from 'src/modules/change-health';
+import { ChangeHealthModule, ChangeHealthOptionsFactory } from 'src/modules/change-health';
 
 const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',
@@ -55,17 +56,25 @@ const config = ConfigModule.forRoot({
 //   },
 // });
 
+@Injectable() 
+class A implements ChangeHealthOptionsFactory {
+  mustHaveFunction() {
+    return 'get Value from parent';
+  }
+}
+
 @Module({
   imports: [
     config,
     ChangeHealthModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        return {
-          host: 'Demo add config into module',
-        }
-      }
+      // imports: [ConfigModule],
+      // inject: [ConfigService],
+      // useFactory: (configService: ConfigService) => {
+      //   return {
+      //     host: 'Demo add config into module',
+      //   }
+      // }
+      useClass: A,
     }), 
   //   cacheConfig,
   //   ormModuleConfig,

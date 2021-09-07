@@ -2,7 +2,6 @@ import { Module, DynamicModule, Provider, Global } from '@nestjs/common';
 import { ChangeHealthController } from './change-health.controller';
 import { ChangeHealthService } from './change-health.service';
 import { ChangeHealthOptions, ChangeHealthAsyncOptions } from './interfaces/change-health-module-options.interface';
-import { ChangeHealthOptionsFactory } from './interfaces/change-health-options-factory.interface'
 import { CHANGE_HEALTH_OPTIONS } from './constants';
 @Global()
 @Module({
@@ -52,12 +51,18 @@ export class ChangeHealthModule {
       };
     }
 
-    // For useClass and useExisting...
-    return {
-      provide: CHANGE_HEALTH_OPTIONS,
-      useFactory: async (optionsFactory: ChangeHealthOptionsFactory) =>
-        await optionsFactory.createOptions(),
-      inject: [options.useExisting || options.useClass],
-    };
+    // For useClass
+    if (options.useClass) {
+      return {
+        provide: CHANGE_HEALTH_OPTIONS,
+        useClass: options.useClass,
+      };
+    }
+
+    // For useExisting...
+    // return {
+    //   provide: CHANGE_HEALTH_OPTIONS,
+    //   useExisting: options.useExisting,
+    // };
   }
 }
