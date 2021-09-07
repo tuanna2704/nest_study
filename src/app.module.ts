@@ -68,13 +68,13 @@ class A implements ChangeHealthOptionsFactory {
     config,
     ChangeHealthModule.registerAsync({
       // imports: [ConfigModule],
-      // inject: [ConfigService],
+      // inject: [A],
       // useFactory: (configService: ConfigService) => {
       //   return {
       //     host: 'Demo add config into module',
       //   }
       // }
-      useClass: A,
+      useExisting: A, 
     }), 
   //   cacheConfig,
   //   ormModuleConfig,

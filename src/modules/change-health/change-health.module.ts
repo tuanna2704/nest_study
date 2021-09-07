@@ -1,4 +1,4 @@
-import { Module, DynamicModule, Provider, Global } from '@nestjs/common';
+import { Module, DynamicModule, Provider, Global, Logger } from '@nestjs/common';
 import { ChangeHealthController } from './change-health.controller';
 import { ChangeHealthService } from './change-health.service';
 import { ChangeHealthOptions, ChangeHealthAsyncOptions } from './interfaces/change-health-module-options.interface';
@@ -37,8 +37,9 @@ export class ChangeHealthModule {
       module: ChangeHealthModule,
       imports: options.imports || [],
       providers: [
+        options.useExisting,
         this.createAsyncProviders(options)
-      ],
+      ].filter(e => e),
     }
   }
 
@@ -60,9 +61,11 @@ export class ChangeHealthModule {
     }
 
     // For useExisting...
-    // return {
-    //   provide: CHANGE_HEALTH_OPTIONS,
-    //   useExisting: options.useExisting,
-    // };
+    if (options.useExisting) {
+      return {
+        provide: CHANGE_HEALTH_OPTIONS,
+        useExisting: options.useExisting,
+      };
+    }
   }
 }
