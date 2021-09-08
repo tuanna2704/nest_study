@@ -21,6 +21,7 @@ import baseConfig from 'src/config/configuration';
 // import { KafkaController } from './kafka.controller';
 // import { GrpcServiceModule } from './modules/grpc-service/grpc-service.module';
 // import { ChangeHealthModule, ChangeHealthOptionsFactory } from 'src/modules/change-health';
+import { ChangeHealthcareModule } from 'src/modules/change-healthcare';
 
 const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',
@@ -76,6 +77,18 @@ const config = ConfigModule.forRoot({
     //   // }
     //   useExisting: A, 
     // }),
+    ChangeHealthcareModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return {
+          host: configService.get<string>('CHANGE_HEALTHCARE_HOST'),
+          client_id: configService.get<string>('CHANGE_HEALTHCARE_CLIENT_ID'),
+          client_secret: configService.get<string>('CHANGE_HEALTHCARE_CLIENT_SECRET'),
+          grant_type: configService.get<string>('CHANGE_HEALTHCARE_GRANT_TYPE'),
+        }
+      }
+    }), 
   //   cacheConfig,
   //   ormModuleConfig,
   //   UserModule,
