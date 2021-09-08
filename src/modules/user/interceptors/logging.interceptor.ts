@@ -10,7 +10,7 @@ import { tap, map } from 'rxjs/operators';
 
 @Injectable()
 export class LoggingInterceptor<T> implements NestInterceptor {
-  showLog: boolean = false;
+  showLog = false;
 
   constructor(showLog?: boolean) {
     this.showLog = showLog;

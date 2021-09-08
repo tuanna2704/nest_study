@@ -15,7 +15,7 @@ import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { Observable, interval, map, firstValueFrom } from 'rxjs';
-import { ChangeHealthcareService } from 'src/modules/change-healthcare'
+import { ChangeHealthcareService } from 'src/modules/change-healthcare';
 @Controller()
 export class AppController {
   constructor(
@@ -34,12 +34,11 @@ export class AppController {
   }
 
   @Post('health')
-  async healthCheck(
-    @Req() req: Request,
-    @Res() res: Response,
-  ) {
-    const response = await this.changeHealthcare.getMedicalnetworkEligibility(req.body);
-    return res.status(response.status).json(response.data)
+  async healthCheck(@Req() req: Request, @Res() res: Response) {
+    const response = await this.changeHealthcare.getMedicalnetworkEligibility(
+      req.body,
+    );
+    return res.status(response.status).json(response.data);
   }
 
   // Go to this page by URL: /test/subTest/foo/subFoo

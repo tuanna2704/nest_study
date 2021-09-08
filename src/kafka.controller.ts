@@ -13,7 +13,7 @@ import { ClientProxy, EventPattern } from '@nestjs/microservices';
 export class KafkaController {
   constructor(@Inject('KAFKA_SERVICE') private client: ClientKafka) {}
 
-  i: number = 0;
+  i = 0;
   async onApplicationBootstrap() {
     // Need to subscribe to topic
     // so that we can get the response from kafka microservice
