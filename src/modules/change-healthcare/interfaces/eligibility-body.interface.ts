@@ -112,7 +112,6 @@ interface EligibilityResponseErrorInterface {
 }
 
 export interface EligibilityRequestBodyInterface {
-  controlNumber: string;
   tradingPartnerServiceId: string;
   encounter: EncounterRequestBody;
   subscriber: SubcriberRequestBody;

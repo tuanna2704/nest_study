@@ -1,5 +1,7 @@
 import { Injectable, Inject, OnModuleInit } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/common/cache';
 import { HttpService } from '@nestjs/axios';
+import { Cache } from 'cache-manager';
 import { CHANGE_HEALTHCARE_OPTIONS } from './constants';
 import {
   ChangeHealthcareOptions,
@@ -8,6 +10,7 @@ import {
 } from './interfaces';
 import { firstValueFrom } from 'rxjs';
 import { AxiosResponse } from 'axios';
+import { padStart } from 'lodash';
 
 @Injectable()
 export class ChangeHealthcareService implements OnModuleInit {
@@ -17,6 +20,7 @@ export class ChangeHealthcareService implements OnModuleInit {
     private http: HttpService,
     @Inject(CHANGE_HEALTHCARE_OPTIONS)
     private _options: ChangeHealthcareOptions,
+    @Inject(CACHE_MANAGER) private cache: Cache,
   ) {}
 
   onModuleInit() {
@@ -28,10 +32,11 @@ export class ChangeHealthcareService implements OnModuleInit {
   ): Promise<AxiosResponse<EligibilityResponse>> {
     const { host } = this._options;
     try {
+      const controlNumber = await this.setControlNumber();
       return await firstValueFrom(
         this.http.post(
           `${host}/medicalnetwork/eligibility/v3`,
-          eligibilityBody,
+          { ...eligibilityBody, ...{ controlNumber } },
           {
             headers: {
               Authorization: `Bearer ${this.accessToken}`,
@@ -61,5 +66,17 @@ export class ChangeHealthcareService implements OnModuleInit {
       }),
     );
     this.accessToken = access_token;
+  }
+
+  private async setControlNumber(): Promise<string> {
+    let controlNumber = (await this.cache.get('control_number')) as
+      | null
+      | number;
+    if (controlNumber === 999999999) {
+      controlNumber = null;
+    }
+
+    await this.cache.set('control_number', controlNumber + 1, { ttl: 0 });
+    return padStart(controlNumber + 1, 9, '0');
   }
 }

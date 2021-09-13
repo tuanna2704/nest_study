@@ -51,6 +51,7 @@
     "express-session": "^1.17.2",
     "hbs": "^4.1.2",
     "kafkajs": "^1.15.0",
+    "lodash": "^4.17.21",
     "mysql2": "^2.3.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

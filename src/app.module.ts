@@ -1,12 +1,8 @@
-import {
-  Injectable,
-  // CacheModule,
-  Module,
-} from '@nestjs/common';
+import { Injectable, CacheModule, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-// import * as redisStore from 'cache-manager-redis-store';
+import * as redisStore from 'cache-manager-redis-store';
 // import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 // import { UserModule } from './modules/user/user.module';
 import baseConfig from 'src/config/configuration';
@@ -24,16 +20,16 @@ const config = ConfigModule.forRoot({
   // envFilePath: 'config/.env',
   load: [baseConfig],
 });
-// const cacheConfig = CacheModule.registerAsync({
-//   imports: [ConfigModule],
-//   useFactory: async (configService: ConfigService) => ({
-//     store: redisStore,
-//     host: configService.get<string>('REDIS_HOST'),
-//     port: configService.get<number>('REDIS_PORT'),
-//     ttl: configService.get<number>('REDIS_TTL'),
-//   }),
-//   inject: [ConfigService],
-// });
+const cacheConfig = CacheModule.registerAsync({
+  imports: [ConfigModule],
+  useFactory: async (configService: ConfigService) => ({
+    store: redisStore,
+    host: configService.get<string>('REDIS_HOST'),
+    port: configService.get<number>('REDIS_PORT'),
+    ttl: configService.get<number>('REDIS_TTL'),
+  }),
+  inject: [ConfigService],
+});
 
 // const ormModuleConfig = TypeOrmModule.forRootAsync({
 //   imports: [ConfigModule],
@@ -75,7 +71,7 @@ const config = ConfigModule.forRoot({
     //   useExisting: A,
     // }),
     ChangeHealthcareModule.registerAsync({
-      imports: [ConfigModule],
+      imports: [ConfigModule, cacheConfig],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         return {
